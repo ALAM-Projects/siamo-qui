@@ -14,22 +14,107 @@ datasource db {
 }
 
 model User {
-  id        String    @id @unique @default(cuid())
-  email     String    @unique
-  username  String    @unique
-  password  String
-  role      String    @default("")
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  Post      Post[]
+  id               String         @id @unique @default(cuid())
+  name             String
+  surname          String
+  email            String         @unique
+  username         String         @unique
+  password         String
+  resettedPassword Boolean        @default(false)
+  phone            String
+  role             String         @default("Admin")
+  comune           String?
+  province         String?
+  mansione         String
+  isApproved       Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime?      @updatedAt
+  Structures       Structure[]
+  WaitingList      WaitingList[]
+  Notification     Notification[]
 }
 
-model Post {
+model Structure {
+  id                 String    @id @unique @default(cuid())
+  name               String
+  enteGestore        String
+  type               String[]
+  accredittedInRome  Boolean   @default(false)
+  emergencyReception Boolean   @default(false)
+  availableToWelcome Boolean   @default(false)
+  otherServices      String?
+  address            String
+  city               String
+  comune             String
+  province           String
+  municipio          String
+  zipCode            String
+  latitude           Float
+  longitude          Float
+  adminName          String
+  adminSurname       String
+  website            String?
+  servicesCardLink   String?
+  otherInfo          String?
+  isActive           Boolean   @default(true)
+  user               User      @relation(fields: [userId], references: [id])
+  userId             String
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
+  Families           Family[]
+}
+
+model Family {
+  id                 String    @id @unique @default(cuid())
+  name               String
+  seats              Int
+  amministrationName String
+  type               String
+  startedDate        DateTime  @default(now())
+  endDate            DateTime?
+  citizenship        String
+  minorsNumber       Int
+  adultsNumber       Int
+  minors             Json[]
+  insertionProcedure String
+  origin             String
+  notes              String?
+  isActive           Boolean   @default(true)
+  structure          Structure @relation(fields: [structureId], references: [id])
+  structureId        String
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
+}
+
+model WaitingList {
+  id                          String    @id @unique @default(uuid())
+  name                        String
+  surname                     String
+  email                       String    @unique
+  phone                       String
+  structureTypes              String[]
+  structureAccredittedInRome  Boolean
+  structureEmergencyReception Boolean
+  structureAvailableToWelcome Boolean   @default(true)
+  structureAddress            String
+  structureCity               String
+  structureProvince           String
+  structureComune             String
+  structureMunicipio          String
+  isActive                    Boolean   @default(true)
+  user                        User      @relation(fields: [userId], references: [id])
+  userId                      String
+  createdAt                   DateTime  @default(now())
+  updatedAt                   DateTime? @updatedAt
+}
+
+model Notification {
   id        String    @id @unique @default(cuid())
   title     String
   content   String
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String
+  read      Boolean   @default(false)
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }

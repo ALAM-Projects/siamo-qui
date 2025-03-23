@@ -1,12 +1,16 @@
 import { defaultActions } from "@/actions";
+import { ServizioAccoglienteSchema } from "@/schemas/servizio-accogliente";
+import { z } from "zod";
 
-type SignUpPayload = {
-  username: string;
-  email: string;
-  password: string;
-};
-export const signUp = async (payload: SignUpPayload) => {
-  const result = await defaultActions.POST("/auth/sign-up", payload);
+type ServizioAccoglienteProps = z.infer<typeof ServizioAccoglienteSchema>;
+
+export const signUpServizioAccogliente = async (
+  payload: ServizioAccoglienteProps
+) => {
+  const result = await defaultActions.POST(
+    "/auth/sign-up/servizio-accogliente",
+    payload
+  );
 
   return result;
 };

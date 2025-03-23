@@ -43,6 +43,7 @@ const SignInForm = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setLoading(true);
+    // TODO: nella response far ritornare il tipo di utente, per poi fare redirec corrispondente
     const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -56,7 +57,7 @@ const SignInForm = () => {
       router.refresh();
     } else {
       return toast({
-        title: "Error",
+        title: "Errore",
         description: "Oops! Qualcosa è andato storto. Riprova.",
         variant: "destructive",
       });
@@ -65,6 +66,10 @@ const SignInForm = () => {
 
   return (
     <>
+      <h2 className="heading mb-2">Login</h2>
+      <p className="subheading mb-5">
+        Inserisci le tue credenziali per accedere
+      </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="space-y-2">
@@ -75,7 +80,7 @@ const SignInForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="mail@example.com" {...field} />
+                    <Input placeholder="Inserisci la tua email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,7 +95,7 @@ const SignInForm = () => {
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="Inserisci la tua password"
                       {...field}
                     />
                   </FormControl>
@@ -104,25 +109,18 @@ const SignInForm = () => {
             type="submit"
             disabled={loading} // Disable button when loading
           >
-            {loading ? <Loader /> : "Sign in"}
+            {loading ? <Loader /> : "Accedi"}
           </Button>
         </form>
         <p className="text-center text-sm text-gray-600 mt-2">
-          I want to{" "}
-          <Link className="text-primary hover:underline" href="/reset-password">
-            reset{" "}
+          Non ricordi la tua password? Clicca{" "}
+          <Link
+            className="text-primary hover:underline font-medium"
+            href="/reset-password"
+          >
+            qui{" "}
           </Link>
-          my password.
-        </p>
-        <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-          or
-        </div>
-        {/* <GoogleSignInButton>Sign in with Google</GoogleSignInButton> */}
-        <p className="text-center text-sm text-gray-600 mt-2">
-          If you don&apos;t have an account, please&nbsp;
-          <Link className="text-primary hover:underline" href="/sign-up">
-            Sign up
-          </Link>
+          per iniziare il processo di reset.
         </p>
       </Form>
     </>
