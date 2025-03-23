@@ -1,0 +1,73 @@
+{
+  "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur us. Donec euismod, nunc nec luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur us. Donec euismod, nunc nec luctus.",
+  "categories": {
+    "WEBSITE": {
+      "name": "WEBSITE",
+      "description": "Website design and development",
+      "services": {
+        "service1": {
+          "name": "pacchetto copywriting",
+          "price": 1500,
+          "time": 15
+        },
+        "service2": {
+          "name": "sviluppo sito web",
+          "price": 5000,
+          "time": 30
+        }
+      }
+    },
+    "GRAPHIC DESIGN": {
+      "name": "GRAPHIC DESIGN",
+      "description": "Graphic design services",
+      "services": {
+        "service3": {
+          "name": "Manifesto / Roll-up / Espositore",
+          "price": 750,
+          "time": 18
+        }
+      }
+    }
+  }
+}
+
+// i am building a nextjs 15 app with app router.
+// The admin will be able to download an editable pdf file using pdf-lib.
+// The pdf has to be generated based on this data:
+// {
+//   "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur us. Donec euismod, nunc nec luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur us. Donec euismod, nunc nec luctus.",
+//   "categories": {
+//     "WEBSITE": {
+//       "name": "WEBSITE",
+//       "description": "Website design and development",
+//       "services": {
+//         "service1": {
+//           "name": "pacchetto copywriting",
+//           "price": 1500,
+//           "time": 15
+//         },
+//         "service2": {
+//           "name": "sviluppo sito web",
+//           "price": 5000,
+//           "time": 30
+//         }
+//       }
+//     },
+//     "GRAPHIC DESIGN": {
+//       "name": "GRAPHIC DESIGN",
+//       "description": "Graphic design services",
+//       "services": {
+//         "service3": {
+//           "name": "Manifesto / Roll-up / Espositore",
+//           "price": 750,
+//           "time": 18
+//         }
+//       }
+//     }
+//   }
+// }
+
+// at the beginning the intro, and then i need to map througth categories writing category name and description and then map again througth category services (each service must have a checkbox).
+
+// The pdf has to be editable outside the application, that means that the admin will create the pdf (the data object will be different each time), will export it and then will send it to the customer.
+// The customer must be able to toggle the checkboxes on the pdf, not on the application
