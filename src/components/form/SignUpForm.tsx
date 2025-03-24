@@ -56,7 +56,12 @@ const SignUpForm = () => {
   //     }
   //   };
 
-  const [selectedService, setSelectedService] = useState<string>("");
+  const [selectedService, setSelectedService] = useState<string>(
+    "servizio-accogliente"
+  );
+
+  console.log();
+
   const router = useRouter();
 
   return (
@@ -66,18 +71,23 @@ const SignUpForm = () => {
         Seleziona la tipologia di utente e procedi con il processo di
         registrazione
       </p>
-      <RadioGroup defaultValue={selectedService}>
+      <RadioGroup
+        defaultValue={selectedService}
+        onValueChange={(value) => setSelectedService(value)}
+      >
         <RadioSelector
           label="Servizio accogliente"
           value="servizio-accogliente"
           id="servizio-accogliente"
           onClick={() => setSelectedService("servizio-accogliente")}
+          checked={selectedService === "servizio-accogliente"}
         />
         <RadioSelector
           label="Servizio inviante"
           value="servizio-inviante"
           id="servizio-inviante"
           onClick={() => setSelectedService("servizio-inviante")}
+          checked={selectedService === "servizio-inviante"}
         />
       </RadioGroup>
       <Button

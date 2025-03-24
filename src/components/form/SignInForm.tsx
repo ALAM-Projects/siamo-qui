@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import Loader from "../Loader";
 
-const FormSchema = z.object({
+const SignInFormSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
     .string()
@@ -33,15 +33,15 @@ const SignInForm = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof SignInFormSchema>>({
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof SignInFormSchema>) => {
     setLoading(true);
     // TODO: nella response far ritornare il tipo di utente, per poi fare redirec corrispondente
     const response = await signIn("credentials", {

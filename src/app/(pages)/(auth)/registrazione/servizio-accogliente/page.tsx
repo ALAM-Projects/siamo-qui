@@ -23,8 +23,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+
 import { ServizioAccoglienteSchema } from "@/schemas/servizio-accogliente";
+import AppForm from "@/components/form/AppForm";
+import Loader from "@/components/Loader";
 
 // import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
@@ -102,18 +104,18 @@ const Page = () => {
     <div className="p-8">
       <div className="heading mb-8">Registrazione Servizio Accogliente</div>
       <Form {...servizioAccoglienteForm}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="col-span-1">
-            <div className="text-xl">Utente</div>
-            <div className="subheading">
-              Inserisci i dati relativi all&apos;amministratore della struttura
-            </div>
-          </div>
-          <div className="col-span-2">
-            <form
-              onSubmit={servizioAccoglienteForm.handleSubmit(onSubmit)}
-              className=""
-            >
+        <form onSubmit={servizioAccoglienteForm.handleSubmit(onSubmit)}>
+          <AppForm
+            leftColumn={
+              <>
+                <div className="text-xl">Utente</div>
+                <div className="subheading">
+                  Inserisci i dati relativi all&apos;amministratore della
+                  struttura
+                </div>
+              </>
+            }
+            rightColumn={
               <div className="space-y-4">
                 <FormField
                   control={servizioAccoglienteForm.control}
@@ -184,356 +186,364 @@ const Page = () => {
                   )}
                 />
               </div>
-            </form>
-          </div>
-        </div>
-        <hr className="my-10" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="col-span-1">
-            <div className="text-xl">Struttura</div>
-            <div className="subheading">
-              Inserisci i dati relativi ad una struttura da te gestita. In
-              seguito avrai la possibilità di aggiungerne altre.
-            </div>
-          </div>
-          <div className="col-span-2">
-            <form
-              onSubmit={servizioAccoglienteForm.handleSubmit(onSubmit)}
-              className="w-full"
-            >
-              <div className="space-y-4">
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="structureName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nome struttura</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Inserisci il nome della struttura"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="enteGestore"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ente gestore</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Inserisci l'ente gestore"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* // TODO: deve diventare una multiselect */}
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="structureType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tipo di struttura</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Inserisci il tipo di struttura"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="accredittedInRome"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        La struttura è accreditata presso il comune di Roma?
-                      </FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value.toString()}
-                        >
-                          <FormItem>
-                            <FormControl>
-                              <RadioGroup className="mt-2" defaultValue="">
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem
-                                    value="true"
-                                    id="accredittedInRome"
-                                  />
-                                  <Label
-                                    htmlFor="accredittedInRome"
-                                    className="cursor-pointer font-normal"
-                                  >
-                                    Si
-                                  </Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem
-                                    value="false"
-                                    id="notAccredittedInRome"
-                                  />
-                                  <Label
-                                    htmlFor="notAccredittedInRome"
-                                    className="cursor-pointer font-normal"
-                                  >
-                                    No
-                                  </Label>
-                                </div>
-                              </RadioGroup>
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="emergencyReception"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>La struttura accoglie in emergenza?</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value.toString()}
-                        >
-                          <FormItem>
-                            <FormControl>
-                              <RadioGroup className="mt-2" defaultValue="">
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem
-                                    value="true"
-                                    id="emergencyReception"
-                                  />
-                                  <Label
-                                    htmlFor="emergencyReception"
-                                    className="cursor-pointer font-normal"
-                                  >
-                                    Si
-                                  </Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem
-                                    value="false"
-                                    id="notEmergencyReception"
-                                  />
-                                  <Label
-                                    htmlFor="notEmergencyReception"
-                                    className="cursor-pointer font-normal"
-                                  >
-                                    No
-                                  </Label>
-                                </div>
-                              </RadioGroup>
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="availableToWelcome"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        La struttura è disponibile ad accogliere?
-                      </FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value.toString()}
-                        >
-                          <FormItem>
-                            <FormControl>
-                              <RadioGroup className="mt-2" defaultValue="">
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem
-                                    value="true"
-                                    id="availableToWelcome"
-                                  />
-                                  <Label
-                                    htmlFor="availableToWelcome"
-                                    className="cursor-pointer font-normal"
-                                  >
-                                    Si
-                                  </Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem
-                                    value="false"
-                                    id="notAvailableToWelcome"
-                                  />
-                                  <Label
-                                    htmlFor="notAvailableToWelcome"
-                                    className="cursor-pointer font-normal"
-                                  >
-                                    No
-                                  </Label>
-                                </div>
-                              </RadioGroup>
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Indirizzo</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Inserisci l'indirizzo" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="comune"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Comune</FormLabel>
-                      <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Inserisci comune" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Roma">Roma</SelectItem>
-                            <SelectItem value="Ciampino">Ciampino</SelectItem>
-                            <SelectItem value="Fiumicino">Fiumicino</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="province"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Provincia</FormLabel>
-                      <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Inserisci provincia" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="RM">RM</SelectItem>
-                            <SelectItem value="LT">LT</SelectItem>
-                            <SelectItem value="FR">FR</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="adminName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nome amministratore</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Inserisci il nome dell'amministratore"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="adminSurname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Cognome amministratore</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Inserisci il cognome dell'amministratore"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="website"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Sito web</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Inserisci il sito web" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="servicesCardLink"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Link carta dei servizi</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Inserisci il link" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={servizioAccoglienteForm.control}
-                  name="otherInfo"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Altre informazioni</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Inserisci altre informazioni"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* <FormField
+            }
+          />
+          <hr className="my-10" />
+          <AppForm
+            leftColumn={
+              <>
+                <div className="text-xl">Struttura</div>
+                <div className="subheading">
+                  Inserisci i dati relativi ad una struttura da te gestita. In
+                  seguito avrai la possibilità di aggiungerne altre.
+                </div>
+              </>
+            }
+            rightColumn={
+              <>
+                <div className="space-y-4">
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="structureName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome struttura</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci il nome della struttura"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="enteGestore"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ente gestore</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci l'ente gestore"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* // TODO: deve diventare una multiselect */}
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="structureType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tipo di struttura</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci il tipo di struttura"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="accredittedInRome"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          La struttura è accreditata presso il comune di Roma?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value.toString()}
+                          >
+                            <FormItem>
+                              <FormControl>
+                                <RadioGroup className="mt-2" defaultValue="">
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem
+                                      value="true"
+                                      id="accredittedInRome"
+                                    />
+                                    <Label
+                                      htmlFor="accredittedInRome"
+                                      className="cursor-pointer font-normal"
+                                    >
+                                      Si
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem
+                                      value="false"
+                                      id="notAccredittedInRome"
+                                    />
+                                    <Label
+                                      htmlFor="notAccredittedInRome"
+                                      className="cursor-pointer font-normal"
+                                    >
+                                      No
+                                    </Label>
+                                  </div>
+                                </RadioGroup>
+                              </FormControl>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="emergencyReception"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          La struttura accoglie in emergenza?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value.toString()}
+                          >
+                            <FormItem>
+                              <FormControl>
+                                <RadioGroup className="mt-2" defaultValue="">
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem
+                                      value="true"
+                                      id="emergencyReception"
+                                    />
+                                    <Label
+                                      htmlFor="emergencyReception"
+                                      className="cursor-pointer font-normal"
+                                    >
+                                      Si
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem
+                                      value="false"
+                                      id="notEmergencyReception"
+                                    />
+                                    <Label
+                                      htmlFor="notEmergencyReception"
+                                      className="cursor-pointer font-normal"
+                                    >
+                                      No
+                                    </Label>
+                                  </div>
+                                </RadioGroup>
+                              </FormControl>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="availableToWelcome"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          La struttura è disponibile ad accogliere?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value.toString()}
+                          >
+                            <FormItem>
+                              <FormControl>
+                                <RadioGroup className="mt-2" defaultValue="">
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem
+                                      value="true"
+                                      id="availableToWelcome"
+                                    />
+                                    <Label
+                                      htmlFor="availableToWelcome"
+                                      className="cursor-pointer font-normal"
+                                    >
+                                      Si
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem
+                                      value="false"
+                                      id="notAvailableToWelcome"
+                                    />
+                                    <Label
+                                      htmlFor="notAvailableToWelcome"
+                                      className="cursor-pointer font-normal"
+                                    >
+                                      No
+                                    </Label>
+                                  </div>
+                                </RadioGroup>
+                              </FormControl>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Indirizzo</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci l'indirizzo"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="comune"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Comune</FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Inserisci comune" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Roma">Roma</SelectItem>
+                              <SelectItem value="Ciampino">Ciampino</SelectItem>
+                              <SelectItem value="Fiumicino">
+                                Fiumicino
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="province"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Provincia</FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Inserisci provincia" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="RM">RM</SelectItem>
+                              <SelectItem value="LT">LT</SelectItem>
+                              <SelectItem value="FR">FR</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="adminName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome amministratore</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci il nome dell'amministratore"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="adminSurname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cognome amministratore</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci il cognome dell'amministratore"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="website"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sito web</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Inserisci il sito web"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="servicesCardLink"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Link carta dei servizi</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Inserisci il link" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={servizioAccoglienteForm.control}
+                    name="otherInfo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Altre informazioni</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Inserisci altre informazioni"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <FormField
                   control={servizioAccoglienteForm.control}
                   name="address"
                   render={({ field }) => (
@@ -560,17 +570,18 @@ const Page = () => {
                     </FormItem>
                   )}
                 /> */}
-              </div>
-              <Button
-                className="w-[200px] mt-6"
-                type="submit"
-                disabled={loading} // Disable button when loading
-              >
-                {loading ? <Loader /> : "Completa registrazione"}
-              </Button>
-            </form>
-          </div>
-        </div>
+                </div>
+                <Button
+                  className="w-full md:w-[200px] mt-6"
+                  type="submit"
+                  disabled={loading} // Disable button when loading
+                >
+                  {loading ? <Loader /> : "Completa registrazione"}
+                </Button>
+              </>
+            }
+          />
+        </form>
       </Form>
     </div>
   );

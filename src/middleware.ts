@@ -7,6 +7,11 @@ const allowedRoles: { [key: string]: string } = {
   "/admin/posts": "Admin", // Only users with 'user' role can access /dashboard
 };
 export default withAuth(function middleware(req) {
+  // Redirect root route to /sign-in
+  if (req.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL("/sign-in", req.url));
+  }
+
   // Use NextAuth's getServerSession to get the session
   const session = req.nextauth.token;
 
@@ -38,5 +43,5 @@ export default withAuth(function middleware(req) {
 
 // Define which routes this middleware applies to
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/"],
 };

@@ -6,9 +6,16 @@ type RadioSelectorProps = {
   value: string;
   id: string;
   onClick: () => void;
+  checked: boolean;
 };
 
-const RadioSelector = ({ label, value, id, onClick }: RadioSelectorProps) => {
+const RadioSelector = ({
+  label,
+  value,
+  id,
+  checked,
+  onClick,
+}: RadioSelectorProps) => {
   return (
     <div
       className="flex items-center justify-between space-x-2 border-2 border-border rounded-md bg-white cursor-pointer pe-5"
@@ -20,7 +27,7 @@ const RadioSelector = ({ label, value, id, onClick }: RadioSelectorProps) => {
       >
         {label}
       </Label>
-      <RadioGroupItem value={value} id={id} />
+      <RadioGroupItem value={value} id={id} checked={checked} />
     </div>
   );
 };
